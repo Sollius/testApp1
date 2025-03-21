@@ -6,7 +6,7 @@ namespace testApp1.Back_end
 {
     public class ApplicationDbContext : DbContext
     {
-        public required DbSet<MovementData> MovementDatas { get; set; }
+        public DbSet<MovementData> MovementDatas { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

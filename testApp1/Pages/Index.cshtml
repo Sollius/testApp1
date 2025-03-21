@@ -50,12 +50,12 @@
         function sendMouseData(event) {
             event.preventDefault();
             hideInput.value = mouseTrackingData;
-
             mouseTrackingData = '';
 
             formForSubmit.submit();
-
-            hideInput.value = '';
+            setTimeout(() => {
+                hideInput.value = '';
+            }, 500);
         }
     </script>
 }
