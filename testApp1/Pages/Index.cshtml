@@ -1,0 +1,61 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Mouse tracking page";
+}
+
+<div class="text-center">
+    <div>
+        Current mouse position: X - <span id="xpos">0</span>, Y - <span id="ypos">0</span>, Time - <span id="timepos">0001.01.01 00:00:00.000</span>
+    </div>
+    <div class="mt-4">
+        <form method="post" id="formForSubmit">
+            <button type="submit" id="submitButton" onclick="sendMouseData(event)">Отправить данные</button>
+            <input asp-for="MouseTrackingData" class="btn btn-info" hidden type="text" id="mouseTrackingData" />
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var xPosSpan = document.getElementById('xpos');
+        var yPosSpan = document.getElementById('ypos');
+        var tPosSpan = document.getElementById('timepos');
+        var hideInput = document.getElementById('mouseTrackingData');
+        var button = document.getElementById('submitButton');
+        var formForSubmit = document.getElementById('formForSubmit');
+
+        var dateNow = new Date(Date.now());
+        var mouseTrackingData = '';
+
+        var xPos = 0;
+        var yPos = 0;
+        var tPos = 0;
+
+        window.onmousemove = (event) => {
+            dateNow = new Date(Date.now());
+
+            xPos = event.clientX;
+            yPos = event.clientY;
+            tPos = getFormattedDateString(dateNow);
+
+            mouseTrackingData = mouseTrackingData + `${xPos},${yPos},${tPos};`;
+            
+            xPosSpan.innerText = xPos;
+            yPosSpan.innerText = yPos;
+            tPosSpan.innerText = tPos;
+        };
+
+        function sendMouseData(event) {
+            event.preventDefault();
+            hideInput.value = mouseTrackingData;
+
+            mouseTrackingData = '';
+
+            formForSubmit.submit();
+
+            hideInput.value = '';
+        }
+    </script>
+}
